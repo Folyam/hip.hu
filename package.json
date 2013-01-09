@@ -1,0 +1,20 @@
+{
+  "name": "hip-hu",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.0.0rc2",
+    "jade": "*",
+    "stylus": "*",
+    "everyauth-express3": "*",
+    "mongoose": "*"
+  },
+  "engines":{
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  },
+
+}
