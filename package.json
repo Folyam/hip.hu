@@ -9,7 +9,7 @@
     "express": "3.0.0rc2",
     "jade": "*",
     "stylus": "*",
-    "everyauth-express3": "*",
+    "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
     "mongoose": "*"
   },
   "engines":{
