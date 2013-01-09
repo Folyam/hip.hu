@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
     ObjectId = mongoose.SchemaTypes.ObjectId;
 
 
-var db_uri = process.env.MONGOLAB_URI || process.env.MONGODB_URI || "mongodb://localhost/hiphu";
+var db_uri = MONGOHQ_URL || "mongodb://localhost/hiphu";
 mongoose.connect(db_uri);
 
 var UserSchema = new Schema({
