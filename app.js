@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
     ObjectId = mongoose.SchemaTypes.ObjectId;
 
 
-var db_uri = MONGOHQ_URL || "mongodb://localhost/hiphu";
+var db_uri = process.env.MONGOHQ_URL || "mongodb://localhost/hiphu";
 mongoose.connect(db_uri);
 
 var UserSchema = new Schema({
@@ -102,7 +102,7 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-everyauth.helpExpress(app);
+//everyauth.helpExpress(app);
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
