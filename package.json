@@ -10,7 +10,8 @@
     "jade": "*",
     "stylus": "*",
     "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
-    "mongoose": "*"
+    "mongoose": "*",
+    "png": "*"
   },
   "engines":{
     "node": "0.8.x",
