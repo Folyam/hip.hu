@@ -109,7 +109,13 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/jefDybNiOk8', routes.invite.first);
+app.get('/Lyctofcaff', routes.invite.second);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+
+// Link schema
+// http://www.ingress.com/intel?latE6=47684459&lngE6=17638035&z=18
+// http://maps.googleapis.com/maps/api/js/GeocodeService.Search?4sBisinger%20s%C3%A9t%C3%A1ny&7sUS&9sen-US&callback=_xdc_._5v521y&token=44543

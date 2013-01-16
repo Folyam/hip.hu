@@ -11,7 +11,9 @@ html
     header
       nav
         if everyauth.loggedIn
-          span #{everyauth.google.user.name}
+          span #{everyauth.google.user.name} |
+          a(href="http://www.ingress.com/intel", target='_blank') Intel Térkép
+          span |
           a(href="/suicide") Exit
         else
           a(href="/auth/google") Log In
