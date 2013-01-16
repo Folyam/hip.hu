@@ -134,17 +134,17 @@ var encoded = {
   })()
 };
 
-exports.first = function(req, res) {
+exports.first = function(req, res, next) {
   if (!req.loggedIn) {
-    return res.end('Cannot ' + req.route.method.toUpperCase() + ' ' + req.route.path);
+    return next();
   }
 
   res.render('invite/first.jade', { code: encoded.first });
 };
 
-exports.second = function(req, res) {
+exports.second = function(req, res, next) {
   if (!req.loggedIn) {
-    return res.end('Cannot ' + req.route.method.toUpperCase() + ' ' + req.route.path);
+    return next();
   }
 
   res.render('invite/second.jade', { code: encoded.second });
