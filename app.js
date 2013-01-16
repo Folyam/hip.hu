@@ -111,6 +111,17 @@ app.get('/', routes.index);
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
 
+app.use(function(req, res, next){
+  res.status(404);
+  res.render(
+    'error/404',
+    {
+      method: req.method,
+      path: req.path
+    }
+  );
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
