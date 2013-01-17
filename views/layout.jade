@@ -7,16 +7,24 @@ html
     link(rel='stylesheet', href='/stylesheets/message.css')
     link(href='http://fonts.googleapis.com/css?family=Electrolize', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Fascinate+Inline&subset=latin,latin-ext', rel='stylesheet', type='text/css')
+    script(type="text/javascript", src="https://apis.google.com/js/plusone.js")
   body
     header
       nav
-        if everyauth.loggedIn
-          span #{everyauth.google.user.name} |
-          a(href="http://www.ingress.com/intel", target='_blank') Intel Térkép
+        div.pull-left
+          a(href="https://plus.google.com/106189462161250574504", rel="publisher", target='_blank') Google+ oldal
           span |
-          a(href="/suicide") Exit
-        else
-          a(href="/auth/google") Log In
+          a(href="https://plus.google.com/communities/109012576581831848926", rel="community", target='_blank') Google+ közösség
+          span |
+          div.g-plusone(data-size="tall", data-annotation="inline", data-width="200", data-href="https://plus.google.com/106189462161250574504")
+        div.pull-right
+          if everyauth.loggedIn
+            span #{everyauth.google.user.name} |
+            a(href="http://www.ingress.com/intel", target='_blank') Intel Térkép
+            span |
+            a(href="/suicide") Exit
+          else
+            a(href="/auth/google") Log In
     section.content
       block content
 
