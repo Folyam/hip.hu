@@ -110,6 +110,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
+app.get('/berAcsOots', routes.invite.third);
 
 app.use(function(req, res, next){
   res.status(404);

@@ -149,3 +149,11 @@ exports.second = function(req, res, next) {
 
   res.render('invite/second.jade', { code: encoded.second });
 };
+
+exports.third = function(req, res, next) {
+  if (!req.loggedIn) {
+    return next();
+  }
+
+  res.render('invite/third.jade');
+};
