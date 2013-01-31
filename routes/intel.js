@@ -31,11 +31,11 @@ var MessageSchema = new Schema({
 var Message = mongoose.model('Message', MessageSchema);
 
 exports.comm = function(req, res) {
-  Message.find({}, function(err, messages) {
+  Message.find({"type": "SYSTEM_BROADCAST", "private": false}, function(err, messages) {
     if (err) {
       return res.json(err);
     }
 
-    return res.json(messages);
+    return res.json({ length: messages.length, messages: messages });
   });
 };
