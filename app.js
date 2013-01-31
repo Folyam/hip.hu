@@ -107,7 +107,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// root
 app.get('/', routes.index);
+// intel
+app.get('/intel/comm', routes.intel.comm);
+// invite
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
 app.get('/berAcsOots', routes.invite.third);
