@@ -10,4 +10,5 @@ exports.error404 = function(req, res) {
   res.render('404', { title: 'Hip.hu' });
 };
 
+exports.intel = require('./intel');
 exports.invite = require('./invite');
