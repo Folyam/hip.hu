@@ -4,38 +4,29 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , fs = require('fs');
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    ObjectId = mongoose.SchemaTypes.ObjectId;
-
+var mongoose = require('mongoose');
 
 var db_uri = process.env.MONGOHQ_URL || "mongodb://localhost/hiphu";
 mongoose.connect(db_uri);
 
-var UserSchema = new Schema({
-  id: 'string',
-  email: 'string',
-  name: 'string',
-  given_name: 'string',
-  family_name: 'string',
-  link: 'string',
-  picture: 'string',
-  gender: 'string',
-  birthday: 'string',
-  locale: 'string'
-}),
-   User = mongoose.model('User', UserSchema);
+var models_path = __dirname + '/lib/models';
+fs.readdirSync(models_path).forEach(function (file) {
+  require(models_path+'/'+file);
+});
 
+var routes = require('./routes');
 
 var everyauth = require('everyauth');
 
 var app = express();
 
 everyauth.everymodule.logoutPath('/suicide');
+
+var User = mongoose.model('User');
 
 everyauth.google
   .appId('1019384727458.apps.googleusercontent.com')
@@ -59,6 +50,9 @@ everyauth.google
         return promise.fail(err);
       }
       if (!user) {
+        googleUserMetadata.info = {
+          last_ip: session.ip
+        };
         var newuser = new User(googleUserMetadata);
         return User.create(newuser, function(err) {
           if (err) {
@@ -68,7 +62,19 @@ everyauth.google
           return promise.fulfill(newuser);
         });
       }
-      promise.fulfill(user);
+
+      user.info.last_ip = session.ip;
+      if (typeof user.agent.codename == "undefined") {
+        user.agent = {
+          codename: null,
+          faction: null,
+          level: null,
+          city: null
+        };
+      }
+      return user.save(function(err, s) {
+        return promise.fulfill(user);
+      })
     });
     return promise;
   })
@@ -92,12 +98,12 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('pramboshnypDicOmLertevNocgocUn'));
   app.use(express.session({secret: 'JefthileirrIpsIpHegMyDriheHaid'}));
+  app.use(function(req, res, next) {
+    req.session.ip = req.ip;
+    return next();
+  });
   app.use(everyauth.middleware(app));
   app.use(app.router);
-  app.use(function(req, res, next) {
-    res.locals.version = "1.0";
-    next();
-  });
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -109,12 +115,25 @@ app.configure('development', function(){
 
 // root
 app.get('/', routes.index);
+// profile
+app.get('/me', routes.profile.index);
+app.get('/u/:id', routes.profile.index);
 // intel
 app.get('/intel/comm', routes.intel.comm);
 // invite
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
 app.get('/berAcsOots', routes.invite.third);
+
+app.locals.Version = "0.3.4";
+app.locals.Page = {
+  long: "Hungarian Ingress Players",
+  short: "hip"
+};
+app.locals.GooglePlus = {
+  pageId: "106189462161250574504",
+  communityId: "109012576581831848926"
+};
 
 app.use(function(req, res, next){
   res.status(404);

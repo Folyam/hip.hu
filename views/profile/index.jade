@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  div.span4
+    div.row-fluid
+      div.span6
+        ul.thumbnails
+          li
+            div.thumbnail
+              img(src="#{user.picture}")
+      div.span6
+        h2 #{user.agent.codename || "Ismeretlen"}
+        h4 #{user.agent.faction || "Ismeretlen frakció"}
+  div.span8
+    if (user.id === everyauth.google.user.id)
+      if (user.agent.codename == null)
+        div.hero-unit
+          h1 Ismeretlen?
+          p
+            | Még nem azonosítottad magadat?
+            | Azért jó azonosítás, mert akkor a profilodon nyomon tudod
+            | követni mi is történt veled és hozzáférhetsz más csapattársad
+            | frakción belüli adataihoz. Minden adat, amit tárolunk rólad,
+            | azt csak te láthatod és az akinek megengeded.
+          button.btn.btn-success.btn-large(type='button', data-toggle="collapse", data-target="#validation-info") Azonosítom magam most!
+          div#validation-info.collapse
+            br
+            div.alert.alert-error.alert-block
+              h4 Figyelem!
+              | Jelenleg ez a funkció még nincs élesítve. Hamarosan elérhetővé válik, ahogyan a profil többi része is.
+            blockquote
+              small
+                | Nyisd meg az&nbsp;
+                a(href='http://ingress.com/intel', target="_blank") Intel térképet
+                | &nbsp;és másold be publikus csatornára az alábbi szöveget:
+            pre Azonosítom magam a hip.hu oldalon: AksjdaksjdkJASKJDKAsjdka
+            blockquote
+              | Ezek után várj, amíg a rendszer feldolgozza az üzenetet.
+              | Ha hosszú percek után sem működik, akkor írd be újra.
+              small Ha így sem, akkor keress meg minket a Google+ Oldalon vagy a Közösségben.
