@@ -29,6 +29,34 @@ exports.index = function(req, res, next) {
   });
 };
 
+exports.save = function(req, res) {
+  if (!req.loggedIn) {
+    return next();
+  }
+
+  if (typeof req.body.name == "undefined" || typeof req.body.value == "undefined") {
+    return res.json({error: "missing data", success: false});
+  }
+
+  var current = req.user;
+  current.agent[req.body.name] = req.body.value;
+  return current.save(function(err, d) {
+    if (err) {
+      return res.json({error: err, success: false});
+    }
+
+    return res.json({success: true, name: req.body.name, value: req.body.value});
+  });
+};
+
+exports.faction = function(req, res) {
+  if (!req.loggedIn) {
+    return next();
+  }
+
+  return res.json({faction: req.user.agent.faction});
+};
+
 var checkAndGenerateUniqActivationCode = function(code, callback) {
   User.count({info: { activation_code: code }}, function(err, data) {
     if (data < 1) {
