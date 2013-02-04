@@ -3,7 +3,16 @@ extends layout
 block content
   h1 hamarosan
   h3 a publikus béta már nincs messze
-  div addig is keresd a kirakókat és nézd azonosítsd magad a profilodon
+  div
+    span addig is keresd a kirakókat és azonosítsd magad a&nbsp;
+    if (everyauth.loggedIn)
+      a(href="/me") profilodon
+      span  :)
+    else
+      span profilodon
+      span , miután&nbsp;
+      a(href="/auth/google") bejelentkeztél
+      span  a Google fiókoddal
 
   br
   script(type="text/javascript")
