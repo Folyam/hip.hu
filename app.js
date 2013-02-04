@@ -153,6 +153,8 @@ app.configure('development', function(){
 app.get('/', routes.index);
 // profile
 app.get('/me', routes.profile.index);
+app.get('/me/faction.json', routes.profile.faction);
+app.post('/me/save', routes.profile.save);
 app.get('/u/:id', routes.profile.index);
 // intel
 app.get('/intel/comm', routes.intel.comm);

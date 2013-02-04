@@ -13,8 +13,9 @@ block content
         h4 #{user.agent.faction || "Ismeretlen frakció"}
   div.span8
     if (user.id === everyauth.google.user.id)
-      if (user.agent.codename == null)
+      if (user.agent.faction === null)
         div.hero-unit
+          div.check-faction-for-validation
           h1 Ismeretlen?
           p
             | Még nem azonosítottad magadat?
@@ -22,12 +23,24 @@ block content
             | követni mi is történt veled és hozzáférhetsz más csapattársad
             | frakción belüli adataihoz. Minden adat, amit tárolunk rólad,
             | azt csak te láthatod és az akinek megengeded.
-          button.btn.btn-success.btn-large(type='button', data-toggle="collapse", data-target="#validation-info") Azonosítom magam most!
+          button.btn.btn-primary.btn-large(type='button', data-toggle="collapse", data-target="#validation-info") Azonosítom magam most!
           div#validation-info.collapse
             br
-            div.alert.alert-error.alert-block
-              h4 Figyelem!
-              | Jelenleg ez a funkció még nincs élesítve. Hamarosan elérhetővé válik, ahogyan a profil többi része is.
+            //div.alert.alert-error.alert-block
+            //  h4 Figyelem!
+            //  | Jelenleg ez a funkció még nincs élesítve. Hamarosan elérhetővé válik, ahogyan a profil többi része is.
+            div
+              if (user.agent.codename == null)
+                p
+                  | Állítsd be a kódnevedet:&nbsp;
+                div.input-append(data-module="save-codename")
+                  input.input-medium(type="text", placeholder="codename", value="#{user.agent.codename || ""}")
+                  button.btn.btn-info(type="submit") Mentés
+              else
+                p
+                  | A neved:&nbsp;
+                  strong #{user.agent.codename}
+
             blockquote
               small
                 | Nyisd meg az&nbsp;
@@ -38,3 +51,11 @@ block content
               | Ezek után várj, amíg a rendszer feldolgozza az üzenetet.
               | Ha hosszú percek után sem működik, akkor írd be újra.
               small Ha így sem, akkor keress meg minket a Google+ Oldalon vagy a Közösségben.
+      else
+        h1 Itt lesz a profilod
+        div
+          | A profiloldal hamarosan kész, de még dolgozom rajta :)
+          | Jelzem újra, hogy ezt a profilt csak te látod. A későbbiekben,
+          | ha akarod megmutathatod csapattársaidnak is,
+          | de amíg nincs teljesen készre tesztelve a jogkör állítás nem akarom kiélesíteni.
+          | Azt hiszem érthető okok miatt.
