@@ -6,7 +6,19 @@
 var express = require('express')
   , http = require('http')
   , path = require('path')
-  , fs = require('fs');
+  , fs = require('fs')
+  , RedisStore = require('connect-redis')(express)
+  , url = require('url');
+
+var redisURL, rclient;
+if (process.env.REDISCLOUD_URL) {
+  redisURL = url.parse(process.env.REDISCLOUD_URL);
+  rclient = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+  rclient.auth(redisURL.auth.split(":")[1]);
+} else {
+  rclient = require("redis").createClient();
+}
+var SessionStore = new RedisStore({client: rclient});
 
 var mongoose = require('mongoose');
 
@@ -117,7 +129,11 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('pramboshnypDicOmLertevNocgocUn'));
-  app.use(express.session({secret: 'JefthileirrIpsIpHegMyDriheHaid'}));
+  app.use(express.session({
+    secret: 'JefthileirrIpsIpHegMyDriheHaid',
+    maxAge : (new Date()) + 86400000, // 2h Session lifetime
+    store: SessionStore
+  }));
   app.use(function(req, res, next) {
     req.session.ip = getClientIp(req);
     return next();
@@ -145,7 +161,7 @@ app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
 app.get('/berAcsOots', routes.invite.third);
 
-app.locals.Version = "0.3.4";
+app.locals.Version = "0.3.5";
 app.locals.Page = {
   long: "Hungarian Ingress Players",
   short: "hip"
