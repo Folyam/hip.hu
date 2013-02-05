@@ -91,3 +91,15 @@ App.Core.register("check-faction-for-validation", function() {
 jQuery(function() {
   return App.Core.init();
 });
+
+
+// Google+ Event (Page)
+function plusone_me( obj ) {
+  var value = 0;
+  if (obj.state == 'on') {
+    value = 1;
+  } else {
+    value = -1;
+  }
+  _gaq.push(['_trackEvent', 'Social', obj.state, 'Google+', value]);
+}
