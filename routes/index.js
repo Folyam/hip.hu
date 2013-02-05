@@ -10,7 +10,7 @@ exports.index = function(req, res){
 
   var percentage = (1-((end-current)/(end-start)))*100;
 
-  res.render('index', { percentage: percentage });
+  res.render('index', { percentage: percentage, invite: "9Z3KMJWK" });
 };
 exports.error404 = function(req, res) {
   res.render('404', { title: 'Hip.hu' });

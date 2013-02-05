@@ -34,6 +34,10 @@ block content
   br
   br
   div.alert.alert-info
-    h1 Itt lesz majd az egyik meghívó
-    div.progress.progress-striped.active
-      div.bar(style="width: #{percentage}%;")
+    if (percentage > 100)
+      h1 Itt egy meghívó
+        div #{invite}
+    else
+      h1 Itt lesz majd az egyik meghívó
+      div.progress.progress-striped.active
+        div.bar(style="width: #{percentage}%;")
