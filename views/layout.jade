@@ -33,7 +33,11 @@ html(lang="hu")
                 a(href="https://plus.google.com/communities/#{GooglePlus.communityId}", rel="community", target='_blank') Google+ közösség
               li.divider-vertical
               li.googleplus
-                div.g-plusone(data-size="tall", data-annotation="inline", data-width="200", data-href="https://plus.google.com/#{GooglePlus.pageId}")
+                div.g-plusone(data-size="tall",
+                              data-annotation="inline",
+                              data-width="200",
+                              data-callback="plusone_me",
+                              data-href="https://plus.google.com/#{GooglePlus.pageId}")
             ul.nav.pull-right
               if everyauth.loggedIn
                 li.divider-vertical
