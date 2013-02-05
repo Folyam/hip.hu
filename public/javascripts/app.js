@@ -77,6 +77,7 @@ App.Core.register("check-faction-for-validation", function() {
   var hasFaction = function() {
     jQuery.get("/me/faction.json", function(resp) {
       if (resp.faction != null) {
+        _gaq.push(['_trackEvent', 'User', 'Validation', resp.faction, 1]);
         window.location.reload();
       }
     }, "json");
