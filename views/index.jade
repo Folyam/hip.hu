@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1 hamarosan
-  h3 a publikus béta már nincs messze
   div
     span addig is keresd a kirakókat és azonosítsd magad a&nbsp;
     if (everyauth.loggedIn)
@@ -33,12 +32,80 @@ block content
 
   br
   br
-  div.alert.alert-info
-    if (percentage > 100)
-      h1 Itt egy meghívó
-        div #{invite}
-      h1 Felhasználva
-    else
-      h1 Itt lesz majd az egyik meghívó
-      div.progress.progress-striped.active
-        div.bar(style="width: #{percentage}%;")
+  article.well
+    h2 Hogyan működik a rendszer?
+    ol
+      li
+        div Bejelentkezel a Google felhasználóddal, ami azért kell, mert valami bejelentkezés kell.
+        div Nem tartom jó ötletnek, hogy külön be kelljen írni email + jelszó párost.
+        div Nem férek ezzel hozzá az ingress adataidhoz. Azokhoz sehogyan sem férek hozzá.
+      li
+        div Ezek után a rendszer fenntart neked egy olyan profilt, amit csak te látsz senki más.
+        div Hozzáférhetsz olyan tartalmakhoz, amiket játékosként amúgy is látsz _(láthatsz)_
+      li
+        div Megadod a kódnevedet és beírod a publikus részre a játékban a COMM-ban a megadott mondatot.
+        div
+          | Erre azért van szükség, hogy láthasd a saját
+          strong publikus
+          | adataidat, mint például mit építettél, romboltál és esetlegesen statisztikát  arról, amit te csináltál.
+      li
+        div A profilodon megadhatod, hogy ki mit lásson. Amíg nem adsz meg semmit, addig senki sem láthat semmit, csak te.
+        div A profilon, amihez állítható jogosultság
+          ul
+            li Kódnév
+            li Frakció
+            li Eseménynapló eseménytől függően. Tehát meghatározható,
+              | hogy Publikus legyen minden rombolás és Frakció láthassa az építéseket,
+              | de a Mezőkkel kapcsolatosakat senki se láthassa.
+        div 3 jogosultsági szint van
+          ul
+            li Privát, amit csak te láthatsz. A profilod minden pontja ide tartozik alapértelmezetten.
+            li Frakció, amit csak a te frakciódba tartozók láthatnak.
+            li Publikus, amit minden játékos láthat. Tehát mindenki, aki már azonosította magát a 3. pontban leírtak szerint.
+        div Mindenki profilja a /u/codename alatt érhető el.
+    div A rendszer minden adatot a COMM publikus csatornájáról gyűjt. Ez a rész mindenki számára elérhető, aki játszik.
+    div Minden bejegyzés tárolásra kerül, ami rendszer által generált, tehát rezonátor, link, terület rombolás és építés.
+    div
+      strong Az adatbázis semmilyen adata nem lesz felhasználva egyik oldal javára sem.
+    div Természetesen miután egyeztetve lett a két oldal Google+ oldalainak validálással foglalkozó embereivel,
+      | hogy könnyebb legyen az életük meg lehet kérdezni a rendszertől, hogy adott Google+ profil (ID alapján)
+      | az ő frakciójába tartozik-e vagy sem. Tehát, ha egy ellenálló lekérdezi egy ellenálló ID-jét, akkor azt kapja,
+      | hogy `true`, amennyiben egy nem játékost vagy egy felvilágosultat kérdez le, akkor azt, hogy `false`.
+      | És ez visszafele is igaz.
+    br
+    div A fentebb leírtakból még nem minden éles, de a fenti logika van követve. Vagyis minden privát.
+    h2 Milyen eszközök lesznek elérhetőek?
+    div Nagyjából az ami máshol is. Portál kalkulátor, AP kalkulátor, közvetlen linkek a portálokra a logokból.
+    div Javaslatokat persze lehet küldeni. :)
+    h2 Mi lesz?
+    div Ha bármiben is új lesz a rendszer vagy ettől eltérő, mindenképpen meg lesz mindenki kérdezve róla.
+    div Például, ha statisztika, ami mindenki számára elérhető aki játékos készülne, akkor csak az fog benne szerepelni,
+      | aki ebbe beleegyezik. Nem fogok leveleket küldözgetni. Aki belép és elolvassa az értesítést, majd bemegy
+      | a beállításokba, és engedélyezi az adott dolgot benne lesz, aki nem az nem. Ilyen egyszerű.
+    h2 Igaz az, hogy egy ellenálló fejleszti az oldalt?
+    div Igen. Nem tagadom az vagyok, de ahogyan eddig is megszokható volt, nem kivételeztem egyik oldallal sem.
+      | Nem egy felvilágosult és ellenálló volt, akit hangout, gtalk vagy személyes találkozó keretében segítettem.
+      | Meghívókat is mindig mindenki számára elérhetően publikáltam. Ha ez zavar, akkor ez van. Örülök, hogy benéztél.
+      | Amennyiben az oldal eléri azt a szintet a teljes forráskód publikusan elérhető lesz Github-on,
+      | így akár át is nézhető, hogy mit csinál a rendszer. Nekem ez jó tanulás, szabadidős elfoglaltság.
+      | Ha bárkit érdekel a kód bármely része az nyugodtan szóljon és az adott részt átküldöm neki és akár el
+      | is magyarázom mit csinál pontosan és melyik sor miért felel. :)
+    div
+      | Én fel is vállalom, hogy ki vagyok:&nbsp;
+      a(href="https://plus.google.com/104695723888883478740?rel=author") Balazs Nadasdi
+      | .
+    br
+    script(type="text/javascript")
+      google_ad_client = "ca-pub-4870755332408030";
+      google_ad_slot = "6179588107";
+      google_ad_width = 234;
+      google_ad_height = 60;
+
+    script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
+    br
+    br
+    div Remélem így korrekten leírtam mindent.
+    br
+    br
+    br
+    br
