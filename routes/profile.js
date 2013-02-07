@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Message = mongoose.model('Message');
 
 var StringUtils = require('../lib/stringutils');
 
@@ -25,7 +26,15 @@ exports.index = function(req, res, next) {
       });
     }
 
-    return res.render("profile/index", { user: user });
+    return Message.find(
+      {
+        type: "SYSTEM_BROADCAST",
+        private: false,
+        "player.codename": "Caerulus" // user.agent.codename
+      }
+    ).limit(100).sort('-timestamp').exec(function(err, logs) {
+      return res.render("profile/index", { user: user, logs: logs });
+    });
   });
 };
 
