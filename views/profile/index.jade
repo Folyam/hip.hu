@@ -97,6 +97,14 @@ block content
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
+              else if (log.plain[0].match(/captured/))
+                li.log-entry.captured
+                  span= "Elfoglalt egy portált. "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span )
               else if (log.plain[0].match(/deployed an/))
                 li.log-entry.create-resonator
                   span= "Elhelyezett egy "
