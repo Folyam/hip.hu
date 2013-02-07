@@ -63,12 +63,13 @@ section.content
       margin-bottom: 0
       margin-top: 50px
 
+*/
 .iblock
   display: inline-block
 
 .margin-small
   margin: 5px
-*/
+
 .factions
   .logo
     width: 125px
@@ -81,44 +82,30 @@ section.content
 #___plusone_0
   vertical-align: top !important
 
-/*
-header
-  display: block
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  z-index: 1
-  padding: 10px
-  opacity: 0.2
-  background-color: black
-  &:hover
-    -webkit-transition: opacity .45s ease-in-out
-    opacity: 1
+$goodColor=#005700
+$badColor=#6D0000
 
-    nav
-      -webkit-transition: opacity .45s ease-in-out
-      opacity: 1
-
-  nav
-    opacity: 0.5
-    color: white
-    overflow: hidden
-    span
-      padding-left: 10px
-      padding-right: 10px
-*/
-/*
-.profile
-  text-align: left
-  margin-top: 50px
-
-aside.profile
-  float: left
-  width: 10%
-  background-color: red
-
-section.profile
-  width: 85%
-  float: right
-*/
+ul.logs
+  margin: 0
+  padding: 0
+  li.log-entry
+    list-style: none
+    padding: 3px
+    &.create-field span, &.create-field strong
+      color: $goodColor
+    &.create-link span, &.create-link strong
+      color: $goodColor
+    &.create-resonator span, &.create-resonator strong
+      color: $goodColor
+    &.destroy-field span, &.destroy-field strong
+      color: $badColor
+    &.destroy-link span, &.destroy-link strong
+      color: $badColor
+    &.destroy-resonator span, &.destroy-resonator strong
+      color: $badColor
+  &.Resistance
+    li:hover
+      background-color: hsla(227, 100%, 79%, 0.5)
+  &.Enlightened
+    li:hover
+      background-color: hsla(127, 100%, 79%, 0.5)

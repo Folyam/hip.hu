@@ -59,3 +59,77 @@ block content
           | ha akarod megmutathatod csapattársaidnak is,
           | de amíg nincs teljesen készre tesztelve a jogkör állítás nem akarom kiélesíteni.
           | Azt hiszem érthető okok miatt.
+
+          h2
+            | Log&nbsp;
+            small (utolsó 100 bejegyzés)
+          ul.logs(class="#{user.agent.faction}")
+            for log in logs
+              if (log.plain[0].match(/destroyed an/))
+                li.log-entry.destroy-resonator
+                  span= "Lerombolt egy "
+                  span= log.plain[1]
+                  span= " szintű rezonátort. "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span )
+              else if (log.plain[0].match(/destroyed the Link/))
+                li.log-entry.destroy-link
+                  span= "Lerombolt egy linket "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span= " -> "
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18",
+                    title="#{log.portals[1].location.address}",
+                    target="_blank")= log.portals[1].name
+                  span )
+              else if (log.plain[0].match(/destroyed a Control Field/))
+                li.log-entry.destroy-field
+                  span= "Lerobolt egy területet "
+                  strong= log.plain[2]
+                  span= " MU értékben. "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span )
+              else if (log.plain[0].match(/deployed an/))
+                li.log-entry.create-resonator
+                  span= "Elhelyezett egy "
+                  span= log.plain[1]
+                  span= " szintű rezonátort. "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span )
+              else if (log.plain[0].match(/linked/))
+                li.log-entry.create-link
+                  span= "Létrehozott egy linket"
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span= " -> "
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18",
+                    title="#{log.portals[1].location.address}",
+                    target="_blank")= log.portals[1].name
+                  span )
+              else if (log.plain[0].match(/created a Control Field/))
+                li.log-entry.create-field
+                  span= "Lefedett egy területet "
+                  strong= log.plain[2]
+                  span= " MU értékben. "
+                  span (
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                    title="#{log.portals[0].location.address}",
+                    target="_blank")= log.portals[0].name
+                  span )
+              else
+                li.log-entry.unknown
+                  span= "Ismeretlen bejegyzés (?): "
+                  span= log.plain.join(" ")
