@@ -30,7 +30,7 @@ exports.index = function(req, res, next) {
       {
         type: "SYSTEM_BROADCAST",
         private: false,
-        "player.codename": "Caerulus" // user.agent.codename
+        "player.codename": user.agent.codename
       }
     ).limit(100).sort('-timestamp').exec(function(err, logs) {
       return res.render("profile/index", { user: user, logs: logs });
