@@ -67,77 +67,85 @@ block content
             for log in logs
               if (log.plain[0].match(/destroyed an/))
                 li.log-entry.destroy-resonator
+                  small= "[" + log.timestamp + "] "
                   span= "Lerombolt egy "
                   span= log.plain[1]
                   span= " szintű rezonátort. "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
               else if (log.plain[0].match(/destroyed the Link/))
                 li.log-entry.destroy-link
+                  small= "[" + log.timestamp + "] "
                   span= "Lerombolt egy linket "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span= " -> "
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18&pguid=#{log.portals[1].guid}",
                     title="#{log.portals[1].location.address}",
                     target="_blank")= log.portals[1].name
                   span )
               else if (log.plain[0].match(/destroyed a Control Field/))
                 li.log-entry.destroy-field
+                  small= "[" + log.timestamp + "] "
                   span= "Lerobolt egy területet "
                   strong= log.plain[2]
                   span= " MU értékben. "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
               else if (log.plain[0].match(/captured/))
                 li.log-entry.captured
+                  small= "[" + log.timestamp + "] "
                   span= "Elfoglalt egy portált. "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
               else if (log.plain[0].match(/deployed an/))
                 li.log-entry.create-resonator
+                  small= "[" + log.timestamp + "] "
                   span= "Elhelyezett egy "
                   span= log.plain[1]
                   span= " szintű rezonátort. "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
               else if (log.plain[0].match(/linked/))
                 li.log-entry.create-link
+                  small= "[" + log.timestamp + "] "
                   span= "Létrehozott egy linket"
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span= " -> "
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[1].location.latE6}&lngE6=#{log.portals[1].location.lngE6}&z=18&pguid=#{log.portals[1].guid}",
                     title="#{log.portals[1].location.address}",
                     target="_blank")= log.portals[1].name
                   span )
               else if (log.plain[0].match(/created a Control Field/))
                 li.log-entry.create-field
+                  small= "[" + log.timestamp + "] "
                   span= "Lefedett egy területet "
                   strong= log.plain[2]
                   span= " MU értékben. "
                   span (
-                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18",
+                  a(href="http://www.ingress.com/intel?latE6=#{log.portals[0].location.latE6}&lngE6=#{log.portals[0].location.lngE6}&z=18&pguid=#{log.portals[0].guid}",
                     title="#{log.portals[0].location.address}",
                     target="_blank")= log.portals[0].name
                   span )
               else
                 li.log-entry.unknown
+                  small= "[" + log.timestamp + "] "
                   span= "Ismeretlen bejegyzés (?): "
                   span= log.plain.join(" ")
