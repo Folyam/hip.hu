@@ -6,11 +6,23 @@ block content
       div.span6
         ul.thumbnails
           li
-            div.thumbnail
-              img(src="#{user.picture}")
+            div.span12.thumbnail
+              img.span12(src="#{user.picture}")
       div.span6
         h2 #{user.agent.codename || "Ismeretlen"}
         h4 #{user.agent.faction || "Ismeretlen frakció"}
+    if (user.agent.faction !== null)
+      div.row-fluid
+        div.span12
+          a(href="https://plus.google.com/communities/#{GooglePlus.factions[user.agent.faction]}",
+          rel="community",
+          target='_blank') #{user.agent.faction} Közösség
+    div.row-fluid
+      div.span12
+        a(href="https://plus.google.com/communities/#{GooglePlus.communityId}",
+          rel="community",
+          target='_blank') hip Közösség
+
   div.span8
     if (user.id === everyauth.google.user.id)
       if (user.agent.faction === null)
