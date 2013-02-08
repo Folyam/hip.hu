@@ -65,6 +65,13 @@ everyauth.google
         googleUserMetadata.info = {
           last_ip: session.ip
         };
+        //user.info.last_ip = session.ip;
+        googleUserMetadata.agent = {
+          codename: null,
+          faction: null,
+          level: null,
+          city: null
+        };
         var newuser = new User(googleUserMetadata);
         return User.create(newuser, function(err) {
           if (err) {
