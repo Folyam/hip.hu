@@ -9,7 +9,7 @@
     "express": "3.0.0rc2",
     "jade": "0.28.1",
     "stylus": "0.32.0",
-    "everyauth": "git://github.com/bnoguchi/everyauth.git#express3",
+    "everyauth": "git://github.com/bnoguchi/everyauth.git#e19b8273e2ca6e2bcd1f339bb154653e42b5d67d",
     "mongoose": "3.5.4",
     "redis": "0.8.2",
     "connect-redis": "1.4.5",
