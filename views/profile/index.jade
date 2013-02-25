@@ -75,6 +75,7 @@ block content
           h2
             | Log&nbsp;
             small (utolsó 100 bejegyzés)
+          div.alert.alert-error Átmenetileg nem elérhető
           ul.logs(class="#{user.agent.faction}")
             for log in logs
               if (log.plain[0].match(/destroyed an/))
