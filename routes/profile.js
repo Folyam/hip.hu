@@ -59,7 +59,7 @@ exports.save = function(req, res) {
   });
 };
 
-exports.faction = function(req, res) {
+exports.faction = function(req, res, next) {
   if (!req.loggedIn) {
     return next();
   }
