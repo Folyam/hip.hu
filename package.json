@@ -3,7 +3,8 @@
   "version": "0.3.5",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app",
+    "test": "grunt travis --verbose"
   },
   "dependencies": {
     "express": "3.0.0rc2",
@@ -14,6 +15,10 @@
     "redis": "0.8.2",
     "connect-redis": "1.4.5",
     "png": "2.1.1"
+  },
+  "devDependencies": {
+    "grunt": "0.4.0",
+    "grunt-contrib-jshint": "0.2.0"
   },
   "engines":{
     "node": "0.8.x",

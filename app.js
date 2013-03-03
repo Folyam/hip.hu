@@ -3,12 +3,12 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , fs = require('fs')
-  , RedisStore = require('connect-redis')(express)
-  , url = require('url');
+var express = require('express'),
+    http = require('http'),
+    path = require('path'),
+    fs = require('fs'),
+    RedisStore = require('connect-redis')(express),
+    url = require('url');
 
 var redisURL, rclient;
 if (process.env.REDISCLOUD_URL) {
@@ -93,7 +93,7 @@ everyauth.google
       }
       return user.save(function(err, s) {
         return promise.fulfill(user);
-      })
+      });
     });
     return promise;
   })
@@ -108,7 +108,7 @@ everyauth.everymodule.findUserById(function ( userId, callback ) {
 });
 
 // snippet taken from http://catapulty.tumblr.com/post/8303749793/heroku-and-node-js-how-to-get-the-client-ip-address
-function getClientIp(req) {
+var getClientIp = function (req) {
   var ipAddress;
   // The request may be forwarded from local web server.
   var forwardedIpsStr = req.header('x-forwarded-for');

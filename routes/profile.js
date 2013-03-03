@@ -81,7 +81,7 @@ exports.isInMyFaction = function(req, res, next) {
 
     return res.json({ isMyFaction: true });
   });
-}
+};
 
 var checkAndGenerateUniqActivationCode = function(code, callback) {
   User.count({info: { activation_code: code }}, function(err, data) {
@@ -91,4 +91,4 @@ var checkAndGenerateUniqActivationCode = function(code, callback) {
       return checkAndGenerateUniqActivationCode(StringUtils.generateActivationCode(15), callback);
     }
   });
-}
+};
