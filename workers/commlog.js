@@ -27,10 +27,10 @@ var TEAMS = {
   "NEUTRAL": "Neutral",
   "RESISTANCE": "Resistance",
   "ALIENS": "Enlightened"
-}
+};
 
 function parsePlext(id, timestamp, plext) {
-  var MessageObject = new Message;
+  var MessageObject = new Message();
 
   MessageObject.guid       = id;
   MessageObject.timestamp = new Date(timestamp);
@@ -48,7 +48,7 @@ function parsePlext(id, timestamp, plext) {
         guid: plext.markup[index][1].guid,
         codename: plext.markup[index][1].plain,
         team: TEAMS[plext.markup[index][1].team]
-      }
+      };
       continue;
     }
     if (plext.markup[index][0] == "PORTAL") {
@@ -138,7 +138,7 @@ function saveLastDeployLevel(message) {
     return false;
   }
 
-  var level = parseInt(message.plain[1].replace(/L/, ""));
+  var level = parseInt(message.plain[1].replace(/L/, ""), 10);
   console.log(message.player.codename, level);
 
   return User.findOne({
@@ -225,17 +225,18 @@ function generatePostData(endTimestamp) {
 
 function main() {
   var data = generatePostData();
+  var _saveCallback = function(err, d) {
+    if (err) {
+      return true; // console.log("" + d._id + " exists");
+    }
+    return true; // console.log("" + d._id + " saved");
+  };
   return sendRequest(data, function(err, messages) {
     if (err) {
       return console.log('problem with request: ' + e.message);
     }
     for(var i in messages) {
-      saveMessageToDatabase(messages[i], function(err, d) {
-        if (err) {
-          return true; // console.log("" + d._id + " exists");
-        }
-        return true; // console.log("" + d._id + " saved");
-      });
+      saveMessageToDatabase(messages[i], _saveCallback);
     }
     //return console.log(util.inspect(messages, false, 7, false));
   });

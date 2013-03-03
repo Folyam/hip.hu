@@ -33,7 +33,7 @@ var encoded = {
     var temp = '';
     for(var i = 0, _l = binaryFormat.length; i < _l; i++) {
       temp += binaryFormat[i] + " ";
-      if (i > 0 && (i+1) % 13 == 0) {
+      if (i > 0 && (i+1) % 13 === 0) {
         temp += "\n";
       }
     }
@@ -57,11 +57,13 @@ var encoded = {
     var base = new Buffer(encoded);
     var buffer = new Buffer(width*height*3);
 
-    for(var i = 0, _l = buffer.length; i < _l; i++) {
+    var i, j;
+
+    for(i = 0, _l = buffer.length; i < _l; i++) {
       buffer[i] = 0;
     }
 
-    for(var i = 0, _l = base.length; i < _l; i++) {
+    for(i = 0, _l = base.length; i < _l; i++) {
       buffer[i] = base[i];
     }
 
@@ -72,8 +74,8 @@ var encoded = {
     //position = calculatePixel(width, height, 3, height/2);    fillPixel(buffer, position, [255, 255, 255]);
     //position = calculatePixel(width, height, 4, height/2);    fillPixel(buffer, position, [255, 255, 255]);
 
-    for(var i = 0; i < height/3-3; i++) {
-      for(var j = -1; j < 2; j++) {
+    for(i = 0; i < height/3-3; i++) {
+      for(j = -1; j < 2; j++) {
         position = calculatePixel(width, height, i+2, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+3, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+4, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
@@ -83,8 +85,8 @@ var encoded = {
       }
     }
 
-    for(var i = height; i > height/3*2+3; i--) {
-      for(var j = -1; j < 2; j++) {
+    for(i = height; i > height/3*2+3; i--) {
+      for(j = -1; j < 2; j++) {
         position = calculatePixel(width, height, i+2, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+3, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+4, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
@@ -94,8 +96,8 @@ var encoded = {
       }
     }
 
-    for(var i = height/3-3; i < height/3*2+3; i++) {
-      for(var j = width/6-3; j < width/6; j++) {
+    for(i = height/3-3; i < height/3*2+3; i++) {
+      for(j = width/6-3; j < width/6; j++) {
         position = calculatePixel(width, height, i+2, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+4, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
         position = calculatePixel(width, height, i+6, height/2+i+j);  fillPixel(buffer, position, [255, 255, 255]);
@@ -105,8 +107,8 @@ var encoded = {
       }
     }
 
-    for(var i = height/3-3; i < height/3*2+3; i++) {
-      for(var j = width/2-3; j < width/2; j++) {
+    for(i = height/3-3; i < height/3*2+3; i++) {
+      for(j = width/2-3; j < width/2; j++) {
         position = calculatePixel(width, height, i-2, height/2+i+j);  fillPixel(buffer, position, [(255-i*j)%255, 0, 0]);
         position = calculatePixel(width, height, i-4, height/2+i+j);  fillPixel(buffer, position, [100, (255-i*j)%255, 100]);
         position = calculatePixel(width, height, i-6, height/2+i+j);  fillPixel(buffer, position, [134, 122, (255-i*j)%255]);
@@ -116,8 +118,8 @@ var encoded = {
       }
     }
 
-    for(var i = height/3-3; i < height/3*2+3; i++) {
-      for(var j = width/2-3; j < width/2; j++) {
+    for(i = height/3-3; i < height/3*2+3; i++) {
+      for(j = width/2-3; j < width/2; j++) {
         position = calculatePixel(width, height, i-2, height/2+i+j);  fillPixel(buffer, position, [(255-i*j)%255, 0, 0]);
         position = calculatePixel(width, height, i-4, height/2+i+j);  fillPixel(buffer, position, [100, (255-i*j)%255, 100]);
         position = calculatePixel(width, height, i-6, height/2+i+j);  fillPixel(buffer, position, [134, 122, (255-i*j)%255]);
