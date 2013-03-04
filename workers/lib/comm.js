@@ -10,6 +10,7 @@ var ACSID = process.env.ACSID,
 // Load models
 var Message = mongoose.model('Message');
 var User = mongoose.model('User');
+var Level = mongoose.model('Level');
 
 // Connection options
 var options = {
@@ -119,15 +120,14 @@ var sendRequest = function(data, callback) {
 
 var saveLastDeployLevel = function(message, callback) {
   if (message.type !== "SYSTEM_BROADCAST") {
-    return callback(message);
+    return callback(null, message);
   }
 
   if (message.plain[0] !== " deployed an ") {
-    return callback(message);
+    return callback(null, message);
   }
 
   var level = parseInt(message.plain[1].replace(/L/, ""), 10);
-  console.log(message.player.codename, level);
 
   return User.findOne({
     "agent.codename": message.player.codename,
@@ -137,27 +137,62 @@ var saveLastDeployLevel = function(message, callback) {
     ]
   }, function(err, u) {
     if (err) {
-      return callback(message);
+      return callback(null, message);
     }
     if (u) {
       u.agent.level = level;
       return u.save(function(err, data) {
-        return callback(message);
+        return callback(null, message);
       });
     }
 
-    return callback(message);
+    return callback(null, message);
+  });
+};
+
+var saveLevelForAll = function(message, callback) {
+  if (message.type !== "SYSTEM_BROADCAST") {
+    return callback(null, message);
+  }
+
+  if (message.plain[0] !== " deployed an ") {
+    return callback(null, message);
+  }
+
+  var level = parseInt(message.plain[1].replace(/L/, ""), 10);
+
+  return Level.findOne({
+    "codename": message.player.codename
+  }, function(err, l) {
+    if (err) {
+      return callback(null, message);
+    }
+    if (!l) {
+      l = new Level({
+        "codename": message.player.codename,
+        "level": level
+      });
+    } else {
+      if (l.level < level) {
+        l.level = level;
+      }
+    }
+    l.timestamp = message.timestamp;
+
+    return l.save(function(err, data) {
+      return callback(null, message);
+    });
   });
 };
 
 var checkAndSaveValidation = function(message, callback) {
   if (message.type !== "PLAYER_GENERATED") {
-    return callback(message);
+    return callback(null, message);
   }
 
   var match = message.plain[0].match(/^Azonosítom magam a hip.hu oldalon: ([a-zA-Z0-9]+)$/);
   if (!match) {
-    return callback(message);
+    return callback(null, message);
   }
 
   return User.findOne({
@@ -166,27 +201,39 @@ var checkAndSaveValidation = function(message, callback) {
     "agent.faction": null
   }, function(err, u) {
     if (err) {
-      return callback(message);
+      return callback(null, message);
     }
     if (u) {
       u.agent.faction = message.team;
       return u.save(function(err, data) {
-        return callback(message);
+        return callback(null, message);
       });
     }
 
-    return callback(message);
+    return callback(null, message);
   });
 };
 
 var checkMessage = function(message, callback) {
-  var callList = async.compose(
-    checkAndSaveValidation,
-    saveLastDeployLevel
+  return async.applyEach(
+    [
+      checkAndSaveValidation,
+      saveLastDeployLevel,
+      saveLevelForAll
+    ],
+    message,
+    function(err, res) {
+      callback(null, message);
+    }
   );
-  callList(message, function(err, res) {
-    callback(message);
-  });
+//  var callList = async.compose(
+//    checkAndSaveValidation,
+//    saveLastDeployLevel,
+//    saveLevelForAll
+//  );
+//  callList(message, function(err, res) {
+//    callback(null, message);
+//  });
 };
 
 var generatePostData = function(endTimestamp) {
