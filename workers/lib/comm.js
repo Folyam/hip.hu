@@ -170,11 +170,17 @@ var saveLevelForAll = function(message, callback) {
     if (!l) {
       l = new Level({
         "codename": message.player.codename,
-        "level": level
+        "level": level,
+        "faction": message.team
       });
     } else {
+      console.log(l.faction);
       if (l.level < level) {
         l.level = level;
+      }
+
+      if (l.faction === null) {
+        l.faction = message.team;
       }
     }
     l.timestamp = message.timestamp;
