@@ -174,12 +174,11 @@ var saveLevelForAll = function(message, callback) {
         "faction": message.team
       });
     } else {
-      console.log(l.faction);
       if (l.level < level) {
         l.level = level;
       }
 
-      if (l.faction === null) {
+      if (l.hasOwnProperty('faction') || l.faction === null || typeof l.faction == "undefined") {
         l.faction = message.team;
       }
     }
