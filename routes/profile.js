@@ -21,7 +21,9 @@ exports.index = function(req, res, next) {
       return checkAndGenerateUniqActivationCode(StringUtils.generateActivationCode(15), function(err, code) {
         user.info.activation_code = code;
         return user.save(function(err, d) {
-          console.log(user);
+          if (err) {
+            console.log(user);
+          }
           return res.render("profile/index", { user: user, logs: [] });
         });
       });
