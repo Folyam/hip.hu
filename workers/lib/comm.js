@@ -161,6 +161,13 @@ var saveLevelForAll = function(message, callback) {
 
   var level = parseInt(message.plain[1].replace(/L/, ""), 10);
 
+  //console.log(message.portals[0].location.address);
+  if (!message.portals[0].location.address.match(/hungary/i)) {
+    return callback(null, message);
+  }
+  //console.log("hu");
+
+
   return Level.findOne({
     "codename": message.player.codename
   }, function(err, l) {
