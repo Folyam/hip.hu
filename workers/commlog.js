@@ -9,8 +9,9 @@ function main() {
       return console.log('problem with request: ' + e.message);
     }
     return async.mapSeries(messages, Comm.checkMessage, function(err, m) {
-      return main();
-      //mongoose.disconnect();
+      return Comm.execReduces(function() {
+        return main();
+      });
     });
   });
 }
