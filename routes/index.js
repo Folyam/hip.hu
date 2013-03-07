@@ -14,7 +14,6 @@ exports.index = function(req, res){
   var percentage = (1-((end-current)/(end-start)))*100;
 
   return StatLevel.find({}, function(err, list) {
-    console.log(list);
     return res.render('index', { statLevels: list });
   });
 };
