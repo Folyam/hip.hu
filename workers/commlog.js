@@ -11,7 +11,7 @@ function main() {
       return console.log('problem with request: ' + e.message);
     }
     return async.mapSeries(messages, Comm.checkMessage, function(err, m) {
-      if (lastReduceRun++ > 3) {
+      if (lastReduceRun++ > 29) {
         console.log("ok");
         return Comm.execReduces(function(err, res) {
           console.log(err);
