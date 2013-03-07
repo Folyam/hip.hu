@@ -231,14 +231,6 @@ var checkMessage = function(message, callback) {
       callback(null, message);
     }
   );
-//  var callList = async.compose(
-//    checkAndSaveValidation,
-//    saveLastDeployLevel,
-//    saveLevelForAll
-//  );
-//  callList(message, function(err, res) {
-//    callback(null, message);
-//  });
 };
 
 var generatePostData = function(endTimestamp) {
@@ -258,9 +250,20 @@ var generatePostData = function(endTimestamp) {
   };
 };
 
+var reduce = require("./mapreduce");
+
+var execReduces = function(callback) {
+  return mongoose.connection.db.executeDbCommand(reduce.factionLevels, function(err, res) {
+    return mongoose.connection.db.executeDbCommand(reduce.levels, function(err, res) {
+      return callback(err, res);
+    });
+  });
+};
+
 module.exports.parsePlext = parsePlext;
 module.exports.sendRequest = sendRequest;
 module.exports.saveLastDeployLevel = saveLastDeployLevel;
 module.exports.checkAndSaveValidation = checkAndSaveValidation;
 module.exports.generatePostData = generatePostData;
 module.exports.checkMessage = checkMessage;
+module.exports.execReduces = execReduces;
