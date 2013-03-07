@@ -12,9 +12,7 @@ function main() {
     }
     return async.mapSeries(messages, Comm.checkMessage, function(err, m) {
       if (lastReduceRun++ > 29) {
-        console.log("ok");
         return Comm.execReduces(function(err, res) {
-          console.log(err);
           lastReduceRun = 0;
           return main();
         });
