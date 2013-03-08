@@ -7,7 +7,7 @@ block content
         ul.thumbnails
           li
             div.span12.thumbnail
-              img.span12(src="#{user.picture}")
+              img.span12(src="#{user.image.url.replace(/\?sz=\d+/, "?sz=250")}")
       div.span6
         h2 #{user.agent.codename || "Ismeretlen"}
         h4 #{user.agent.faction || "Ismeretlen frakció"}
@@ -24,7 +24,7 @@ block content
           target='_blank') hip Közösség
 
   div.span8
-    if (user.id === everyauth.google.user.id)
+    if (user.id === current.id)
       if (user.agent.faction === null)
         div.hero-unit
           div.check-faction-for-validation
@@ -38,9 +38,6 @@ block content
           button.btn.btn-primary.btn-large(type='button', data-toggle="collapse", data-target="#validation-info") Azonosítom magam most!
           div#validation-info.collapse
             br
-            //div.alert.alert-error.alert-block
-            //  h4 Figyelem!
-            //  | Jelenleg ez a funkció még nincs élesítve. Hamarosan elérhetővé válik, ahogyan a profil többi része is.
             div
               if (user.agent.codename == null)
                 p
