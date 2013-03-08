@@ -142,8 +142,8 @@ var validateAndAdd = function(code, guid, ip, callback) {
         }
         try {
           profile = JSON.parse(profile);
-        } catch(err) {
-          return callback(err);
+        } catch(e) {
+          return callback(e);
         }
         return User.findOne({id: profile.id}, function(err, resp) {
           if (err) {
@@ -177,7 +177,6 @@ var validateAndAdd = function(code, guid, ip, callback) {
 
               // update current ip
               newuser.info.last_ip = ip;
-              return callback(null, newuser);
               return User.create(newuser, function(err) {
                 if (err) {
                   return callback(err);
