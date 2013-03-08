@@ -139,7 +139,7 @@ var User = (function(){
             if (resp.error) {
               console.log(error);
             }
-            //window.location = "/me";
+            window.location = "/";
           },
           "json"
         );
