@@ -1,6 +1,6 @@
 {
   "name": "hip-hu",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "private": true,
   "scripts": {
     "start": "node app",
@@ -15,7 +15,8 @@
     "redis": "0.8.2",
     "connect-redis": "1.4.5",
     "png": "2.1.1",
-    "async": "0.2.6"
+    "async": "0.2.6",
+    "oauth": "0.9.8"
   },
   "devDependencies": {
     "grunt": "0.4.0",

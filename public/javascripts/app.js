@@ -104,3 +104,52 @@ function plusone_me( obj ) {
   }
   _gaq.push(['_trackEvent', 'Social', obj.state, 'Google+', value]);
 }
+
+var User = (function(){
+  var authData = {};
+  var _signinCallback = function(result) {
+    if (result['code']) {
+      jQuery("#signinButton").hide();
+      authData = result;
+      // console.log("Logout: https://accounts.google.com/o/oauth2/revoke?token=" + result['access_token']);
+      sendAuthStateToServer();
+      //console.log(authData);
+    } else {
+      jQuery("#signinButton").show();
+      console.log('There was an error: ' + result['error']);
+    }
+  };
+
+  var sendAuthStateToServer = function() {
+    gapi.client.load('plus','v1', function() {
+      var request = gapi.client.plus.moments.list( {userId: "me", collection: "vault"} );
+      request.execute(function(data) {
+        //console.log(data);
+      });
+      var request = gapi.client.plus.people.get( {'userId' : 'me'} );
+      request.execute( function(profile) {
+        jQuery.post(
+          "/user/auth",
+          {
+            code: authData['code'],
+            state: authData['state'],
+            user_id: profile.id
+          },
+          function(resp) {
+            if (resp.error) {
+              console.log(error);
+            }
+            //window.location = "/me";
+          },
+          "json"
+        );
+      });
+    });
+  };
+
+  return {
+    signinCallback: _signinCallback
+  };
+})();
+
+var __signinCallback = User.signinCallback;

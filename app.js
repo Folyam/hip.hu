@@ -8,7 +8,8 @@ var express = require('express'),
     path = require('path'),
     fs = require('fs'),
     RedisStore = require('connect-redis')(express),
-    url = require('url');
+    url = require('url'),
+    StringUtils = require('./lib/stringutils');
 
 var redisURL, rclient;
 if (process.env.REDISCLOUD_URL) {
@@ -20,97 +21,12 @@ if (process.env.REDISCLOUD_URL) {
 }
 var SessionStore = new RedisStore({client: rclient});
 
-var mongoose = require('mongoose');
 
-var db_uri = process.env.MONGOHQ_URL || "mongodb://localhost/hiphu";
-mongoose.connect(db_uri);
-
-var models_path = __dirname + '/lib/models';
-fs.readdirSync(models_path).forEach(function (file) {
-  require(models_path+'/'+file);
-});
-
-var routes = require('./routes');
-
-var everyauth = require('everyauth');
+var mongoose = require('./lib/mongodbsetup'),
+    routes = require('./routes'),
+    User = mongoose.model('User');
 
 var app = express();
-
-everyauth.everymodule.logoutPath('/suicide');
-
-var User = mongoose.model('User');
-
-var _google = {
-  appId: process.env.GoogleAppId,
-  secret: process.env.GoogleSecret
-};
-
-everyauth.google
-  .appId(_google.appId)
-  .appSecret(_google.secret)
-  .scope('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email') // What you want access to
-  .entryPath('/auth/google')
-  .callbackPath('/auth/google/callback')
-  //.handleAuthCallbackError( function (req, res) {
-    // If a user denies your app, Google will redirect the user to
-    // /auth/google/callback?error=access_denied
-    // This configurable route handler defines how you want to respond to
-    // that.
-    // If you do not configure this, everyauth renders a default fallback
-    // view notifying the user that their authentication failed and why.
-  //})
-  .findOrCreateUser( function (session, accessToken, accessTokenExtra, googleUserMetadata) {
-    var promise = this.Promise();
-
-    User.findOne({id: googleUserMetadata.id}, function(err, user) {
-      if (err) {
-        return promise.fail(err);
-      }
-      if (!user) {
-        googleUserMetadata.info = {
-          last_ip: session.ip
-        };
-        //user.info.last_ip = session.ip;
-        googleUserMetadata.agent = {
-          codename: null,
-          faction: null,
-          level: null,
-          city: null
-        };
-        var newuser = new User(googleUserMetadata);
-        return User.create(newuser, function(err) {
-          if (err) {
-            return promise.fail(err);
-          }
-
-          return promise.fulfill(newuser);
-        });
-      }
-
-      user.info.last_ip = session.ip;
-      if (typeof user.agent.codename == "undefined") {
-        user.agent = {
-          codename: null,
-          faction: null,
-          level: null,
-          city: null
-        };
-      }
-      return user.save(function(err, s) {
-        return promise.fulfill(user);
-      });
-    });
-    return promise;
-  })
-  .redirectPath('/');
-everyauth.everymodule.findUserById(function ( userId, callback ) {
-  return User.findOne({id: userId}, function(err, user) {
-    if (err) {
-      return callback(err);
-    }
-    return callback(null, user);
-  });
-});
 
 // snippet taken from http://catapulty.tumblr.com/post/8303749793/heroku-and-node-js-how-to-get-the-client-ip-address
 var getClientIp = function (req) {
@@ -146,17 +62,37 @@ app.configure(function(){
     maxAge : (new Date()) + 86400000, // 2h Session lifetime
     store: SessionStore
   }));
-  app.use(function(req, res, next) {
-    req.session.ip = getClientIp(req);
-    return next();
-  });
-  app.use(everyauth.middleware(app));
-  app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(function(req, res, next) {
+    req.session.ip = getClientIp(req);
+    if (typeof req.session.state == "undefined" || req.session.state == null) {
+      res.locals.state = StringUtils.generateRandom(20);
+      req.session.state = res.locals.state;
+    } else {
+      res.locals.state = req.session.state;
+    }
+    return next();
+  });
+  app.use(function(req, res, next) {
+    if (typeof req.session.user != "undefined" && req.session.user) {
+      return User.findOne({_id: req.session.user._id}, function(err, u) {
+        req.session.user = u;
+        res.locals.current = u;
+        res.locals.isLoggedIn = true;
+        req.loggedIn = true;
+        return next();
+      });
+    } else {
+      res.locals.current = new User();
+      res.locals.isLoggedIn = false;
+      req.loggedIn = false;
+    }
+    return next();
+  });
+  app.use(app.router);
 });
 
-//everyauth.helpExpress(app);
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
@@ -168,6 +104,11 @@ app.get('/me', routes.profile.index);
 app.get('/me/faction.json', routes.profile.faction);
 app.post('/me/save', routes.profile.save);
 app.get('/api/profile/:id.json', routes.profile.isInMyFaction);
+app.post('/user/auth', routes.profile.auth);
+app.get('/suicide', function(req, res) {
+  delete req.session.user;
+  return res.redirect("/");
+});
 // app.get('/u/:id', routes.profile.index);
 // intel
 app.get('/intel/comm', routes.intel.comm);
@@ -176,19 +117,14 @@ app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
 app.get('/berAcsOots', routes.invite.third);
 
-app.locals.Version = "0.3.5";
-app.locals.Page = {
-  long: "Hungarian Ingress Players",
-  short: "hip"
-};
-app.locals.GooglePlus = {
-  pageId: "106189462161250574504",
-  communityId: "109012576581831848926",
-  factions: {
-    "Resistance": "111411442712848944778",
-    "Enlightened": "110165515317838688784"
-  }
-};
+var c_app = require('./etc/app'),
+    c_social = require('./etc/social'),
+    c_googleapi = require("./etc/googleapi");
+
+app.locals.Version = c_app.version;
+app.locals.Page = c_app.Page;
+app.locals.GooglePlus = c_social.GooglePlus;
+app.locals.GoogleAPI = c_googleapi;
 
 app.use(function(req, res, next){
   res.status(404);

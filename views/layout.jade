@@ -39,7 +39,7 @@ html(lang="hu")
                               data-callback="plusone_me",
                               data-href="https://plus.google.com/#{GooglePlus.pageId}")
             ul.nav.pull-right
-              if everyauth.loggedIn
+              if isLoggedIn
                 li.divider-vertical
                 li.dropdown
                   a.dropdown-toggle(href="#", data-toggle="dropdown") Eszközök
@@ -50,8 +50,8 @@ html(lang="hu")
                 li.divider-vertical
                 li.dropdown
                   a.dropdown-toggle(href="#", data-toggle="dropdown")
-                    img.avatar(src="#{everyauth.google.user.picture}")
-                    | #{everyauth.google.user.name}
+                    img.avatar(src="#{current.image.url}")
+                    | #{current.agent.codename || current.id}
                     b.caret
                   ul.dropdown-menu
                     li
@@ -61,7 +61,18 @@ html(lang="hu")
               else
                 li.divider-vertical
                 li
-                  a(href="/auth/google") Bejelentkezés Google Fiókkal
+                  span#signinButton
+                    span(
+                      class="g-signin",
+                      data-callback="__signinCallback"
+                      data-clientid="#{GoogleAPI.webapp.ClientId}"
+                      data-cookiepolicy="single_host_origin"
+                      data-redirecturi="postmessage"
+                      data-state="#{state}"
+                      data-accesstype="offline"
+                      data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                      data-scope="https://www.googleapis.com/auth/plus.login"
+                    )
     div.container-fluid
       br
       div.fluid-row
@@ -78,45 +89,3 @@ html(lang="hu")
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-
-
-    if everyauth.loggedIn
-      script#IntercomSettingsScriptTag
-        window.intercomSettings = {
-          email: "#{everyauth.google.user.email}",
-          user_id: "#{everyauth.google.user.id}",
-          app_id: "xvwof26y"
-        };
-      script
-        (function(){
-          var w=window;
-          var ic=w.Intercom;
-          if(typeof ic==="function"){
-            ic('reattach_activator');
-            ic('update',intercomSettings);
-          } else {
-            var d=document;
-            var i=function(){
-              i.c(arguments);
-            };
-            i.q=[];
-            i.c=function(args){
-              i.q.push(args);
-            };
-            w.Intercom=i;
-            function l(){
-              var s=d.createElement('script');
-              s.type='text/javascript';
-              s.async=true;
-              s.src='https://api.intercom.io/api/js/library.js';
-              var x=d.getElementsByTagName('script')[0];
-              x.parentNode.insertBefore(s,x);
-            }
-            if(w.attachEvent){
-              w.attachEvent('onload',l);
-            } else {
-              w.addEventListener('load',l,false);
-            }
-          }
-        })();
-
