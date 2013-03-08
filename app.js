@@ -66,7 +66,7 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(function(req, res, next) {
     req.session.ip = getClientIp(req);
-    if (typeof req.session.state == "undefined" || req.session.state == null) {
+    if (typeof req.session.state == "undefined" || req.session.state === null) {
       res.locals.state = StringUtils.generateRandom(20);
       req.session.state = res.locals.state;
     } else {
