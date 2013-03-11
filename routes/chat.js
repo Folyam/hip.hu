@@ -1,6 +1,14 @@
-var redis = require("redis"),
-    Rclient = redis.createClient();
+var redis = require("redis");
 
+var Rclient = null;
+
+if (process.env.REDISCLOUD_URL) {
+  redisURL = url.parse(process.env.REDISCLOUD_URL);
+  Rclient = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+  Rclient.auth(redisURL.auth.split(":")[1]);
+} else {
+  Rclient = require("redis").createClient();
+}
 
 var StringUtils = require('../lib/stringutils');
 
