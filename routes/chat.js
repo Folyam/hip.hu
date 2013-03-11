@@ -1,4 +1,5 @@
-var redis = require("redis");
+var redis = require("redis"),
+    url = require('url');
 
 var Rclient = null;
 
