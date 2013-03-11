@@ -110,6 +110,8 @@ app.get('/suicide', function(req, res) {
   return res.redirect("/");
 });
 // app.get('/u/:id', routes.profile.index);
+// chat
+app.get('/chat', routes.chat.index);
 // intel
 app.get('/intel/comm', routes.intel.comm);
 // invite
@@ -137,9 +139,14 @@ app.use(function(req, res, next){
   );
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+var httpServer = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+var Chat = require('./lib/chatservice');
+
+var ChatServer = new Chat.Server();
+ChatServer.start(httpServer);
 
 
 // Link schema

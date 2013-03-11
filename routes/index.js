@@ -24,3 +24,4 @@ exports.error404 = function(req, res) {
 exports.profile = require('./profile');
 exports.intel = require('./intel');
 exports.invite = require('./invite');
+exports.chat = require('./chat');
