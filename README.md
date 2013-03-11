@@ -20,3 +20,6 @@ csinálj olyat, akkor olvasd el
 [ezt a cikket a Github-os csapatmunkáról](http://dev.folyam.info/blog/2013/03/01/csapatmunka-github-segitsegevel/).
 
 [![Build Status](https://travis-ci.org/Folyam/hip.hu.png?branch=master)](https://travis-ci.org/Folyam/hip.hu)
+
+A projekt leendő feladatai itt elérhetőek:
+https://www.pivotaltracker.com/projects/770121
