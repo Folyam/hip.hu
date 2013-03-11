@@ -1,0 +1,20 @@
+extends ../layout
+
+block ext_javascript
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/chat.js")
+
+block content
+  h1 COMM
+
+  input#myhash(type="hidden", value="#{hash}")
+  div#log.hidden
+  div.row-fluid.chat
+    div.span6.well
+      h2 Public
+      div#public
+      input.span11(type="text", name="public", data-private="false")
+    div.span6.well(class="iam#{current.agent.faction}")
+      h2 #{current.agent.faction || "Faction"}
+      div#faction
+      input(type="text", name="faction", data-private="true")
