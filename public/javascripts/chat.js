@@ -20,12 +20,12 @@ jQuery(document).ready(function() {
     };
 
     MessagesHandler.prototype.info = function(msg) {
-      this.container.append(jQuery("<div class='info'>Info: " + msg.replace(/</, "&lt;").replace(/>/, "&gt;") + "</div>"));
+      this.container.append(jQuery("<div class='info'>Info: " + msg + "</div>"));
       this.container.scrollTop(this.container[0].scrollHeight);
     };
 
     MessagesHandler.prototype.msg = function(msg) {
-      this.container.append(jQuery("<div class='msg'><span>" + msg.codename + ":</span> " + msg.msg.replace(/</, "&lt;").replace(/>/, "&gt;") + "</div>"));
+      this.container.append(jQuery("<div class='msg'><span>" + msg.codename + ":</span> " + msg.msg + "</div>"));
       this.container.scrollTop(this.container[0].scrollHeight);
     };
 
@@ -51,6 +51,10 @@ jQuery(document).ready(function() {
       } else {
         public.msg(data);
       }
+    });
+
+    socket.on('client-count', function (data) {
+      jQuery("#" + data.channel).parent().find('h2 span').text(" (" + data.count + " ügynök van jelen)");
     });
 
     jQuery('input[name="public"], input[name="faction"]').on('keydown', function(e) {
