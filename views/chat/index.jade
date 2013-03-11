@@ -11,10 +11,14 @@ block content
   div#log.hidden
   div.row-fluid.chat
     div.span6.well
-      h2 Public
+      h2
+        | Public
+        span.counter &nbsp;(Nincs adat)
       div#public
       input.span11(type="text", name="public", data-private="false")
     div.span6.well(class="iam#{current.agent.faction}")
-      h2 #{current.agent.faction || "Faction"}
+      h2
+        | #{current.agent.faction || "Faction"}
+        span.counter (Nincs adat)
       div#faction
       input.span11(type="text", name="faction", data-private="true")
