@@ -18,7 +18,7 @@ exports.index = function(req, res, next) {
     return next();
   }
 
-  var hash = StringUtils.generateRandom(40);
+  var hash = StringUtils.generateRandom(40) + "_" + req.session.user._id.toString();
 
   Rclient.set("chat:auth:" + hash, JSON.stringify(req.session.user));
 
