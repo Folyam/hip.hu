@@ -237,8 +237,13 @@ var saveActivity = function(message, callback) {
     }
 
     if (u) {
-      return message.save(function(err, data) {
-        return callback(null, message);
+      Message.findOne({"guid": message.guid}, function(err, data) {
+        if (data) {
+          return callback(null, message);
+        }
+        return message.save(function(err, data) {
+          return callback(null, message);
+        });
       });
     }
 
