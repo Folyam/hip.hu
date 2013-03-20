@@ -161,11 +161,9 @@ var saveLevelForAll = function(message, callback) {
 
   var level = parseInt(message.plain[1].replace(/L/, ""), 10);
 
-  //console.log(message.portals[0].location.address);
   if (!message.portals[0].location.address.match(/hungary/i)) {
     return callback(null, message);
   }
-  //console.log("hu");
 
 
   return Level.findOne({
@@ -226,12 +224,35 @@ var checkAndSaveValidation = function(message, callback) {
   });
 };
 
+var saveActivity = function(message, callback) {
+  if (message.type !== "SYSTEM_BROADCAST") {
+    return callback(null, message);
+  }
+
+  return User.findOne({
+    "agent.codename": message.player.codename
+  }, function(err, u) {
+    if (err) {
+      return callback(null, message);
+    }
+
+    if (u) {
+      return message.save(function(err, data) {
+        return callback(null, message);
+      });
+    }
+
+    return callback(null, message);
+  });
+};
+
 var checkMessage = function(message, callback) {
   return async.applyEach(
     [
       checkAndSaveValidation,
       saveLastDeployLevel,
-      saveLevelForAll
+      saveLevelForAll,
+      saveActivity
     ],
     message,
     function(err, res) {
