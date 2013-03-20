@@ -237,7 +237,7 @@ var saveActivity = function(message, callback) {
     }
 
     if (u) {
-      Message.findOne({"guid": message.guid}, function(err, data) {
+      return Message.findOne({"guid": message.guid}, function(err, data) {
         if (data) {
           return callback(null, message);
         }
