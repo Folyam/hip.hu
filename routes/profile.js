@@ -35,7 +35,7 @@ exports.index = function(req, res, next) {
         private: false,
         "player.codename": user.agent.codename
       }
-    ).limit(100).sort('-timestamp').exec(function(err, logs) {
+    ).sort('-timestamp').exec(function(err, logs) {
       return res.render("profile/index", { user: user, logs: logs });
     });
   });
