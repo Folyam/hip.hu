@@ -70,22 +70,6 @@ exports.faction = function(req, res, next) {
   return res.json({faction: req.session.user.agent.faction});
 };
 
-exports.isInMyFaction = function(req, res, next) {
-  if (!req.loggedIn) {
-    return next();
-  }
-  if (typeof req.params.id != "string") {
-    return next();
-  }
-  return User.count({ id: req.params.id, "agent.faction": req.session.user.agent.faction }, function(err, data) {
-    if (err || data < 1) {
-      return res.json({ isMyFaction: false });
-    }
-
-    return res.json({ isMyFaction: true });
-  });
-};
-
 exports.auth = function(req, res, next) {
   if (req.session.state !== req.body.state) {
     console.log(req.session.state,req.body.state);
