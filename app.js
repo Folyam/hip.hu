@@ -103,7 +103,6 @@ app.get('/', routes.index);
 app.get('/me', routes.profile.index);
 app.get('/me/faction.json', routes.profile.faction);
 app.post('/me/save', routes.profile.save);
-app.get('/api/profile/:id.json', routes.profile.isInMyFaction);
 app.post('/user/auth', routes.profile.auth);
 app.get('/suicide', function(req, res) {
   delete req.session.user;
@@ -112,8 +111,9 @@ app.get('/suicide', function(req, res) {
 // app.get('/u/:id', routes.profile.index);
 // chat
 app.get('/chat', routes.chat.index);
-// intel
-app.get('/intel/comm', routes.intel.comm);
+// API
+app.get('/api/profile/:id.json', routes.api.profile.isInMyFaction);
+app.get('/api/intel/comm/:from?/:to?', routes.api.intel.comm);
 // invite
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);
