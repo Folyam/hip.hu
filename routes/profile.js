@@ -159,6 +159,14 @@ var validateAndAdd = function(code, guid, ip, callback) {
               newuser.info = old.info;
               newuser.agent = old.agent;
 
+              if (typeof newuser.agent == "undefined") {
+                newuser.agent = {
+                  codename: null,
+                  faction: null,
+                  level: null
+                };
+              }
+
               // update current ip
               newuser.info.last_ip = ip;
               return User.create(newuser, function(err) {
