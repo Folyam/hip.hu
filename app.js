@@ -113,7 +113,7 @@ app.get('/suicide', function(req, res) {
 app.get('/chat', routes.chat.index);
 // API
 app.get('/api/profile/:id.json', routes.api.profile.isInMyFaction);
-app.get('/api/intel/comm/:from?/:to?', routes.api.intel.comm);
+app.get('/api/intel/comm/:from?/:to?/:page?', routes.api.intel.comm);
 // invite
 app.get('/jefDybNiOk8', routes.invite.first);
 app.get('/Lyctofcaff', routes.invite.second);

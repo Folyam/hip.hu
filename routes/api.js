@@ -11,8 +11,10 @@ exports.intel.comm = function(req, res, next) {
   }
 
   var to, from;
-  to   = new Date(req.params.to);
-  from = new Date(req.params.from);
+  to   = new Date(parseInt(req.params.to, 10));
+  from = new Date(parseInt(req.params.from, 10));
+
+  var page = parseInt(req.params.page, 10) || 0;
 
   var now = new Date();
   if (isNaN(to.getTime())) {
@@ -32,8 +34,8 @@ exports.intel.comm = function(req, res, next) {
     if (api_access.last_query.getDate() != (new Date().getDate())) {
       api_access.query_count = 0;
     } else {
-      if (api_access.query_count >= 1000) {
-        return res.json({ error: "Access Denied!", message: "You have reached the limit (500)." });
+      if (api_access.query_count >= api_access.query_limit) {
+        return res.json({ error: "Access Denied!", message: "You have reached the limit (" + query_limit + ")." });
       }
     }
 
@@ -49,7 +51,8 @@ exports.intel.comm = function(req, res, next) {
         "$lt": to
       }
     }).sort({"timestamp": -1});
-    return query.limit(100)
+    var LIMIT = 100;
+    return query.limit(LIMIT).skip(LIMIT * page)
             .exec(function(err, messages) {
               if (err) {
                 return res.json(err);
@@ -71,7 +74,11 @@ exports.intel.comm = function(req, res, next) {
                       from: res_from,
                       to: res_to,
                       length: messages.length,
-                      total: count
+                      total: count,
+                      page: {
+                        current: page,
+                        max: Math.ceil(count/LIMIT) - 1 // because we count from 0
+                      }
                     },
                     request: {
                       from: from,
